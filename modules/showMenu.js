@@ -3,7 +3,18 @@ const addTaskModule = require("./addTask");
 const deleteTaskModule = require("./deleteTask");
 const completeTaskModule = require("./completeTask");
 
-const tasks = [];
+const tasks = [
+  {
+    id: 1,
+    description: "Tarea de prueba 1",
+    completed: false,
+  },
+  {
+    id: 2,
+    description: "Tarea de prueba 2",
+    completed: true,
+  },
+];
 
 async function showMenu() {
   console.log("\nMENU:");
@@ -41,4 +52,5 @@ async function showMenu() {
 
 module.exports = {
   showMenu,
+  tasks,
 };
