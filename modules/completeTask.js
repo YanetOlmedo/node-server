@@ -1,33 +1,36 @@
-const readlineSync = require("readline-sync");
+// Importa la funcion showTasks
+const { showTasks } = require("./showTasks");
 
 function completeTask(tasks) {
-  if (tasks.length === 0) {
-    console.log("No hay tareas para completar.");
-    return;
-  }
+  return new Promise((resolve) => {
+    // verifica si no hay tareas disponibles
+    if (tasks.length === 0) {
+      console.log("No hay tareas para completar.");
+      resolve();
+      return;
+    }
 
-  const taskIndex = readlineSync.keyInSelect(
-    tasks.map((task) => {
-      const status = task.completed ? "[completed]" : "[incompleted]";
-      return `${status} ${task.description}`;
-    }),
-    "Seleccione la tarea a completar:"
-  );
+    // Llama a la funcion showTasks para mostrar las tareas y obtener la tarea seleccionada
+    const taskIndex = showTasks(tasks, "Seleccione la tarea a completar:");
 
-  if (taskIndex === -1) {
-    console.log("Cancelado.");
-    return;
-  }
+    // verifica si el usuario canceló la seleccion
+    if (taskIndex === -1) {
+      console.log("Cancelado.");
+      resolve();
+      return;
+    }
 
-  // Si la tarea estaba completada, cambiar su estado a incompleta; si estaba incompleta, cambiar su estado a completa
-  tasks[taskIndex].completed = !tasks[taskIndex].completed;
+    // Cambia el estado de completado de la tarea seleccionada
+    tasks[taskIndex].completed = !tasks[taskIndex].completed;
 
-  // Mostrar mensaje de acuerdo al nuevo estado de la tarea
-  if (tasks[taskIndex].completed) {
-    console.log("Tarea completada correctamente.");
-  } else {
-    console.log("Tarea marcada como incompleta.");
-  }
+    // Muestra un mensaje de acuerdo al estado actualizado de la tarea
+    if (tasks[taskIndex].completed) {
+      console.log("Tarea completada correctamente.");
+    } else {
+      console.log("Tarea marcada como incompleta.");
+    }
+    resolve();
+  });
 }
 
 module.exports = {

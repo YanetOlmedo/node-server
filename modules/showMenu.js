@@ -5,7 +5,7 @@ const completeTaskModule = require("./completeTask");
 
 const tasks = [];
 
-function showMenu() {
+async function showMenu() {
   console.log("\nMENU:");
   console.log("1. Añadir tarea");
   console.log("2. Eliminar tarea");
@@ -16,13 +16,17 @@ function showMenu() {
 
   switch (option) {
     case "1":
-      addTaskModule.addTask(tasks);
+      try {
+        await addTaskModule.addTask(tasks);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
       break;
     case "2":
-      deleteTaskModule.deleteTask(tasks);
+      await deleteTaskModule.deleteTask(tasks);
       break;
     case "3":
-      completeTaskModule.completeTask(tasks);
+      await completeTaskModule.completeTask(tasks);
       break;
     case "4":
       console.log("Saliendo del programa.");
